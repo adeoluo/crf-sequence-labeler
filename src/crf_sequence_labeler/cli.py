@@ -29,6 +29,12 @@ def _cmd_tag(args: argparse.Namespace) -> None:
         print(f"  {token:<14} {tag}")
 
 
+def _cmd_serve(args: argparse.Namespace) -> None:
+    from crf_sequence_labeler.service import serve
+
+    serve(host=args.host, port=args.port)
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(prog="crf-sequence-labeler", description=__doc__)
     parser.add_argument("--epochs", type=int, default=20)
@@ -40,7 +46,11 @@ def main(argv: list[str] | None = None) -> None:
     tag = sub.add_parser("tag", help="tag a sentence given as tokens")
     tag.add_argument("tokens", nargs="+", help="the whitespace-separated tokens to tag")
 
-    handlers = {"evaluate": _cmd_evaluate, "tag": _cmd_tag}
+    serve = sub.add_parser("serve", help="start the HTTP tagging service")
+    serve.add_argument("--host", default="127.0.0.1")
+    serve.add_argument("--port", type=int, default=8000)
+
+    handlers = {"evaluate": _cmd_evaluate, "tag": _cmd_tag, "serve": _cmd_serve}
     args = parser.parse_args(argv)
     handlers[args.command](args)
 
