@@ -1,27 +1,36 @@
-# Model / System Card - Crf Sequence Labeler
+# System Card - CRF Sequence Labeler
 
 ## Overview
-- **What it is:** 1 - 2 sentences.
-- **Base model(s):** e.g., Claude 3.5 Sonnet / GPT-4o / Llama-3-8B / from-scratch.
-- **Version & date:**
+
+- **What it is:** a linear-chain conditional random field for sequence labeling, trained from
+  scratch, with Viterbi decoding and span-level evaluation.
+- **What it is not:** a neural tagger; features are hand-designed and transparent.
+- **Version:** 0.1.0.
 
 ## Intended use
-- **Primary use cases:**
-- **Primary users:**
+
+- **Primary use cases:** learning how CRFs are trained and decoded; tagging short sequences
+  with named entities or parts of speech on modest datasets.
+- **Primary users:** engineers and students studying structured prediction.
 
 ## Out-of-scope / prohibited use
-- Where this should **not** be used, and why.
+
+- Not for web-scale corpora (pure-Python training).
+- Accuracy depends on the hand-designed features and the training data.
 
 ## Performance
-- Summary of key metrics (link to [`EVALUATION_REPORT.md`](EVALUATION_REPORT.md)).
-- Known performance disparities across inputs / subgroups.
 
-## Risks & limitations
-- Failure modes, biases, hallucination behavior, brittleness.
-- **Dual-use / misuse considerations.**
+See the README: span-level F1 of about 0.857 on held-out named-entity sentences.
+
+## Risks and limitations
+
+- Hand-designed features cap accuracy versus neural extractors.
+- Small, synthetic training data limits coverage.
 
 ## Safety mitigations
-- Guardrails, filtering, human-in-the-loop, abstention behavior.
+
+- Deterministic under a fixed seed; offline; bounded token lists in the service.
 
 ## Environmental / cost footprint
-- Compute used; approximate cost / energy where relevant.
+
+Negligible; training runs in tens of milliseconds on the bundled data.
