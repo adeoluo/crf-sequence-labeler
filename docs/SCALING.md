@@ -24,7 +24,7 @@ tagging over a standard-library HTTP service. Deterministic for a fixed seed.
   but produce invalid tag sequences.
 - **Full log-likelihood gradient vs structured perceptron.** The log-likelihood gradient uses
   forward-backward marginals and models probabilities, at a higher cost than the perceptron,
-  which uses only Viterbi. The reference chooses the probabilistic, principled training.
+  which uses only Viterbi. The reference chooses the probabilistic training objective.
 - **Hand-designed vs neural features.** Hand features are transparent and dependency-free but
   cap accuracy; neural features generalize better at the cost of a heavy dependency.
 - **Stochastic gradient ascent vs batch L-BFGS.** Stochastic updates are simple and online;

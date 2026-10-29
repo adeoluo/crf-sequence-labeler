@@ -19,7 +19,7 @@ with an L2 penalty. All derivatives are written out by hand.
 - **Automatic differentiation.** Convenient but a heavy dependency and opaque for a reference
   whose purpose is to show the CRF mechanics.
 - **Structured perceptron.** Simpler (uses only Viterbi, no partition function) but does not
-  model probabilities or use marginals; the full CRF gradient is the principled choice.
+  model probabilities or use marginals; the full CRF gradient is the correct choice.
 
 ## Consequences
 
