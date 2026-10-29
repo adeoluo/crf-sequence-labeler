@@ -1,21 +1,24 @@
-# Threat Model - Crf Sequence Labeler
+# Threat Model - CRF Sequence Labeler
 
 ## Assets
-- What's worth protecting (data, keys, model, user trust, budget).
+
+- Integrity of the trained weights and the predicted tags and spans.
 
 ## Trust boundaries
-- Where untrusted input crosses into the system (reference the architecture diagram).
 
-## Threats (STRIDE + LLM-specific)
+- **Token lists are untrusted input to the service.** They are validated for type and length
+  and only featurized and decoded, never executed.
+
+## Threats and mitigations
 
 | Threat | Vector | Impact | Mitigation |
 |---|---|---|---|
-| Prompt injection | Untrusted content in context / tools | Data exfiltration, unsafe actions | Input/output filtering, tool allow-list, least privilege |
-| Jailbreak | Adversarial user prompt | Policy bypass | System-prompt hardening, output classifier, refusal evaluation |
-| Data exfiltration | Model echoes secrets / PII | Privacy breach | Secret scanning, output redaction, no secrets in context |
-| Excessive cost | Unbounded loops / large inputs | $ blowout | Token/step budgets, rate limits, timeouts |
-| Tool abuse | Agent calls dangerous tool | Destructive action | Approval gates, sandboxing, dry-run |
-| Supply chain | Malicious dependency | Code execution | Pinned dependencies, Dependabot, SBOM |
+| Unbounded computation | Very long token list | Resource use | Token count bounded to 200 |
+| Malformed input | Non-string tokens | Crash | Type validation with a 400 |
+| Irreproducible training | Unseeded gradient ascent | Flaky weights | Deterministic, seeded training |
+| Supply-chain compromise | Malicious dependency | Code execution | Zero runtime dependencies; Dependabot and CodeQL in continuous integration |
 
 ## Residual risk
-- What remains after mitigations and why it's acceptable.
+
+The tagger reflects its training data; on out-of-domain text accuracy drops. The bundled data
+is synthetic and the limitation is a capability bound, not a security flaw.

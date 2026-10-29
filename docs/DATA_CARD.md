@@ -1,22 +1,18 @@
-# Data Card - Crf Sequence Labeler
+# Data Card - CRF Sequence Labeler
 
-## Sources & provenance
-- Where each dataset came from (links), collection method, dates.
+The project bundles one small, synthetic named-entity dataset. There is no external data and
+nothing is downloaded.
 
-## Licensing
-- License of each source and whether usage complies. Redistribution terms.
+## bundled dataset (`src/crf_sequence_labeler/data.py`)
 
-## Composition
-- Size, format, fields, language(s), modality.
-
-## Preprocessing & filtering
-- Cleaning, dedup, PII handling, filtering rules.
-
-## Contamination checks
-- How you ensured evaluation data is not in training / few-shot context.
-
-## Known biases & gaps
-- Representation gaps, label noise, sampling bias.
+- **Provenance:** authored for this project. Sentences tagged in the BIO scheme over person
+  (PER) and location (LOC) entities, with disjoint train and test splits.
+- **Why this shape:** capitalization, position, and cue words (``in``, ``from``) make the
+  entities learnable, and held-out names and places test generalization.
+- **Licensing:** authored by this repository; MIT.
+- **Known gaps:** small, English, two entity types; a demonstration dataset.
 
 ## Ethical considerations
-- Consent, sensitive content, privacy.
+
+The dataset is synthetic with fictitious names and public place names; no personal or
+sensitive data.
