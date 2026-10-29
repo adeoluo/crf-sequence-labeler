@@ -21,7 +21,7 @@ Many natural-language tasks are sequence labeling: named-entity recognition, par
 tagging, chunking. The right model is not an independent classifier per token but one that
 scores a whole label sequence jointly, so that label transitions (a location tag rarely
 follows a person tag mid-word) are learned. The **linear-chain conditional random field** is
-that model. This project implements it **from first principles** - the features, **Viterbi**
+that model. This project implements it **from scratch** - the features, **Viterbi**
 decoding, **forward-backward** inference, and **log-likelihood gradient** training - with
 **zero runtime dependencies** and no automatic differentiation. The only numerics are a
 log-sum-exp helper.
