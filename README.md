@@ -61,6 +61,26 @@ On held-out sentences the from-scratch CRF reaches **0.857 span F1**, tagging un
 and locations correctly - it generalizes through shape and affix features rather than
 memorizing words.
 
+### Scale
+
+`benchmarks/scale.py` trains the CRF once, then runs Viterbi decoding over progressively
+larger sets of synthetic templated BIO sentences and records wall-clock time, decoding
+throughput, peak memory (`tracemalloc`), and span F1. Timing is measured without tracemalloc
+(which slows every allocation); peak memory is traced separately around the workload plus a
+single decode, which is faithful because decoding processes one sentence at a time.
+Throughput is roughly flat near 2,500 to 3,000 sentences per second and peak memory grows
+linearly with the number of sentences. Run with `uv run python benchmarks/scale.py`.
+
+| Sentences | Seconds | Throughput (sent/sec) | Peak memory (MiB) | Span F1 |
+|---:|---:|---:|---:|---:|
+| 2000 | 0.65 | 3068.4 | 0.51 | 0.927 |
+| 4000 | 1.52 | 2630.1 | 0.91 | 0.929 |
+| 8000 | 3.25 | 2458.9 | 1.92 | 0.932 |
+| 16000 | 5.96 | 2684.0 | 3.95 | 0.933 |
+
+Honest caveat: the sentences are synthetic and templated, and this pure-Python implementation
+is not benchmarked against compiled sequence-labeling libraries.
+
 ## Demonstration
 
 ```text
