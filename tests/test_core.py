@@ -60,6 +60,24 @@ def test_empty_sentence_decodes_empty() -> None:
     assert crf.viterbi([]) == []
 
 
+def test_training_skips_empty_sentences() -> None:
+    # Regression: an empty-token sentence crashed training with an IndexError.
+    crf = Trainer(["NAME", "OTHER"], TrainingConfig(epochs=3, seed=0)).train(
+        [([], []), *_toy_data()]
+    )
+    assert crf.viterbi(["David", "runs"]) == ["NAME", "OTHER"]
+
+
+def test_seed_changes_training_order_reproducibly() -> None:
+    # Regression: seed was a dead no-op. It now seeds the per-epoch shuffle, so
+    # different seeds give different models and the same seed is reproducible.
+    a = Trainer(["NAME", "OTHER"], TrainingConfig(epochs=8, seed=0)).train(_toy_data())
+    b = Trainer(["NAME", "OTHER"], TrainingConfig(epochs=8, seed=3)).train(_toy_data())
+    c = Trainer(["NAME", "OTHER"], TrainingConfig(epochs=8, seed=0)).train(_toy_data())
+    assert a.emission == c.emission
+    assert a.emission != b.emission
+
+
 def test_training_config_validation() -> None:
     with pytest.raises(ValueError):
         TrainingConfig(epochs=0)

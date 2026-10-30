@@ -9,6 +9,7 @@ marginals computed by forward-backward. An L2 penalty keeps weights bounded.
 from __future__ import annotations
 
 import math
+import random
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -52,11 +53,19 @@ class Trainer:
         self._config = config or TrainingConfig()
 
     def train(self, data: Sequence[LabeledSentence]) -> CRF:
-        """Return a CRF fit to ``data`` by gradient ascent on the log-likelihood."""
+        """Return a CRF fit to ``data`` by gradient ascent on the log-likelihood.
+
+        Sentences with no tokens are skipped. The training order is shuffled each
+        epoch with a generator seeded from the configuration, so ``seed`` controls
+        the (reproducible) order in which examples drive the online updates.
+        """
         crf = CRF(labels=self._labels)
         rate = self._config.learning_rate
+        rng = random.Random(self._config.seed)
+        examples = [(tokens, gold) for tokens, gold in data if len(tokens) > 0]
         for _ in range(self._config.epochs):
-            for tokens, gold in data:
+            rng.shuffle(examples)
+            for tokens, gold in examples:
                 self._update(crf, tokens, gold, rate)
             rate *= 0.9
         return crf
