@@ -1,4 +1,4 @@
-"""A dependency-free HTTP service exposing the trained CRF tagger.
+"""A standard-library HTTP service exposing the trained CRF tagger.
 
 The service trains the CRF once at startup over the bundled data and then tags
 sentences and reports held-out evaluation. A pure handler is separated from the

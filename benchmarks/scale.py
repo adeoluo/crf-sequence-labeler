@@ -9,8 +9,8 @@ metric. Timing is measured without tracemalloc (which otherwise slows every
 allocation); peak memory is traced separately around the workload plus a single
 decode, which is faithful because decoding processes one sentence at a time.
 
-The sentences are synthetic and follow a small set of templates. This pure-Python
-from-scratch implementation is not competitive on wall-clock time with compiled
+The sentences are synthetic and follow a small set of templates. This from-scratch Python
+implementation is not competitive on wall-clock time with compiled
 sequence-labeling libraries; the goal is to show how hand-written Viterbi scales
 with the number of sentences. Deterministic and offline; run with:
 
@@ -161,7 +161,7 @@ def run_scale(sizes: tuple[int, ...] = WORKLOAD_SIZES) -> list[ScaleRow]:
 
 def main() -> None:
     print("Synthetic templated BIO sentences; from-scratch linear-chain CRF.")
-    print("Pure-Python Viterbi; not benchmarked against compiled sequence libraries.")
+    print("Interpreted-Python Viterbi; not benchmarked against compiled sequence libraries.")
     print(f"{'sentences':>10}  {'seconds':>9}  {'sent/sec':>9}  {'peak MiB':>9}  {'span F1':>9}")
     for row in run_scale():
         print(

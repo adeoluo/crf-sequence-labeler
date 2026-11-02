@@ -8,7 +8,7 @@ The operational contract of the tagging service.
 uv run python -m crf_sequence_labeler serve --host 0.0.0.0 --port 8000
 ```
 
-A standard-library HTTP server with **zero runtime dependencies**. The CRF is trained once at
+A standard-library HTTP server. The CRF is trained once at
 startup and then serves stateless tagging requests.
 
 ## Endpoints

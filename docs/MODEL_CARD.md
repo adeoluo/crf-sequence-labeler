@@ -15,7 +15,7 @@
 
 ## Out-of-scope / prohibited use
 
-- Not for web-scale corpora (pure-Python training).
+- Not for web-scale corpora (training runs in interpreted Python).
 - Accuracy depends on the hand-designed features and the training data.
 
 ## Performance

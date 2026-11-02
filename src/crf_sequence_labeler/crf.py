@@ -10,7 +10,7 @@ log space for numerical stability:
 * **Log-likelihood gradient** - empirical minus expected feature counts, used by
   stochastic gradient ascent with L2 regularization.
 
-Everything is pure Python; the only numerics are a log-sum-exp helper.
+The only numerical helper is a log-sum-exp function.
 """
 
 from __future__ import annotations

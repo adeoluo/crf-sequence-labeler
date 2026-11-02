@@ -23,6 +23,6 @@ with an L2 penalty. All derivatives are written out by hand.
 
 ## Consequences
 
-- The project is dependency-free and the training mathematics is fully visible.
+- The training mathematics is fully visible and each gradient term is directly testable.
 - Forward-backward is cubic per sentence in the label count, which is fine for small tag sets.
 - Log-space arithmetic with log-sum-exp keeps the computation numerically stable.

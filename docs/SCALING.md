@@ -13,7 +13,7 @@ tagging over a standard-library HTTP service. Deterministic for a fixed seed.
 |---|---|---|
 | One process | Decode CPU, global interpreter lock | One replica per core |
 | Large label set | Quadratic forward-backward and Viterbi | Prune transitions; beam decoding |
-| Large corpus | Pure-Python training | Train offline; load weights; use L-BFGS |
+| Large corpus | Interpreted-Python training | Train offline; load weights; use L-BFGS |
 | Rich features | Feature count growth | Feature hashing; sparse updates |
 | Many replicas | Repeated startup training | Train once; ship weights as an artifact |
 
@@ -25,8 +25,9 @@ tagging over a standard-library HTTP service. Deterministic for a fixed seed.
 - **Full log-likelihood gradient vs structured perceptron.** The log-likelihood gradient uses
   forward-backward marginals and models probabilities, at a higher cost than the perceptron,
   which uses only Viterbi. The reference chooses the probabilistic training objective.
-- **Hand-designed vs neural features.** Hand features are transparent and dependency-free but
-  cap accuracy; neural features generalize better at the cost of a heavy dependency.
+- **Hand-designed vs neural features.** Hand features are transparent and cheap to compute but
+  cap accuracy; neural features generalize better at the cost of a learned encoder and its
+  training infrastructure.
 - **Stochastic gradient ascent vs batch L-BFGS.** Stochastic updates are simple and online;
   L-BFGS converges in fewer passes but needs the full-batch gradient and more machinery.
 
