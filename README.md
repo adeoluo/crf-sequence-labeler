@@ -148,6 +148,16 @@ error, and latency metrics in Prometheus text format). A production-style stress
 scaling path and tradeoffs are in [docs/SCALING.md](docs/SCALING.md) and a full walk-through
 is in the [case study](docs/CASE_STUDY.md).
 
+### Demos
+
+Recorded from real runs with [vhs](https://github.com/charmbracelet/vhs); each tape is in `docs/demo/`.
+
+Tagging a sentence with the CRF, then the held-out evaluation.
+
+<p align="center">
+  <img src="docs/demo/tag.gif" alt="Tagging a sentence with the CRF, then the held-out evaluation" width="860">
+</p>
+
 ## Design decisions
 
 - **A conditional random field, not independent classifiers.** Scoring the whole sequence
