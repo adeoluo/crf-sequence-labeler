@@ -158,6 +158,18 @@ Tagging a sentence with the CRF, then the held-out evaluation.
   <img src="docs/demo/tag.gif" alt="Tagging a sentence with the CRF, then the held-out evaluation" width="860">
 </p>
 
+The HTTP service tagging a new sentence.
+
+<p align="center">
+  <img src="docs/demo/http.gif" alt="The HTTP service tagging a new sentence" width="860">
+</p>
+
+Span-level evaluation and request metrics from the service.
+
+<p align="center">
+  <img src="docs/demo/http-evaluate.gif" alt="Span-level evaluation and request metrics from the service" width="860">
+</p>
+
 ## Design decisions
 
 - **A conditional random field, not independent classifiers.** Scoring the whole sequence
