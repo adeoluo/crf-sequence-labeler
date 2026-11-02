@@ -29,10 +29,16 @@ no automatic differentiation. The only numerical helper is a log-sum-exp functio
   <img src="docs/architecture/architecture.svg" alt="Architecture diagram" width="860">
 </p>
 
-Each token yields transparent **emission features** (word, shape, affixes, neighbors). The
-CRF learns a weight per (feature, label) and per (previous label, label). Training ascends
-the conditional log-likelihood using forward-backward marginals; decoding uses Viterbi. See
-the [ADRs](docs/adr/) for the key decisions.
+<sub>Legend: amber = entry points and external systems, indigo = core logic, green = data and state, blue = validation and control, grey = observability and outputs.</sub>
+
+The CLI and the HTTP service both train the CRF on the BIO training split before use. Each
+token yields transparent **emission features** (word, shape, affixes, neighbors). The CRF
+learns a weight per (feature, label) and per (previous label, label). Training ascends the
+conditional log-likelihood using forward-backward marginals, with an L2 penalty set in
+`TrainingConfig`. At request time the service validates the token list, Viterbi decodes the
+best label path, and the BIO tags are turned into entity spans; the same spans feed the
+span-level evaluation, and every route records latency and errors for `/metrics`. See the
+[ADRs](docs/adr/) for the key decisions.
 
 ### The three algorithms
 

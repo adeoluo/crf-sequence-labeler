@@ -5,29 +5,55 @@ flowchart TD
     classDef control  fill:#0EA5E9,stroke:#1E293B,color:#ffffff,stroke-width:1px;
     classDef obs      fill:#CBD5E1,stroke:#1E293B,color:#1E293B,stroke-width:1px;
 
-    Client([Client]):::edge
+    User([CLI user]):::edge
+    Client([HTTP client]):::edge
 
-    subgraph Train["Training (once at startup)"]
+    subgraph Interfaces["Interfaces (CLI and stdlib HTTP)"]
         direction TB
-        Data[(Labeled BIO data)]:::data
-        Features[Emission features<br/>word, shape, affixes, context]:::core
-        Gradient["Forward-backward<br/>empirical minus expected counts"]:::core
+        CLI["cli.py<br/>evaluate | tag | serve"]:::edge
+        Router["service.py router<br/>/health /ready /tag /evaluate /metrics"]:::core
+        Validate["Request validation<br/>token list, max 200 tokens"]:::control
     end
 
-    Weights[(Emission + transition weights)]:::data
-
-    subgraph Edge["Service layer (stdlib HTTP, stateless)"]
+    subgraph Core["Core logic (linear-chain CRF)"]
         direction TB
-        Router["Router<br/>/health | /ready | /metrics | /tag | /evaluate"]:::core
-        Validate["Validation<br/>bounded token list"]:::control
+        Features["features.py<br/>word, shape, affixes, neighbors"]:::core
+        Trainer["training.py<br/>gradient ascent with L2"]:::core
+        FB["Forward-backward<br/>log Z and marginals"]:::core
+        Viterbi["Viterbi decoding<br/>best label path"]:::core
+        Spans["Span extraction<br/>BIO tags to entities"]:::core
     end
 
-    Viterbi["Viterbi decoding<br/>most probable label path"]:::core
-    Result["BIO tags + entity spans"]:::obs
+    subgraph State["Data and model state (in memory)"]
+        direction TB
+        Dataset[("data.py<br/>BIO train and test splits")]:::data
+        Config["TrainingConfig<br/>epochs, learning rate, l2, seed"]:::control
+        Weights[("CRF weights<br/>emission and transition")]:::data
+    end
 
-    Data --> Features --> Gradient -->|weights| Weights
-    Client -->|JSON request| Router --> Validate
+    subgraph Obs["Evaluation and observability"]
+        direction TB
+        Eval["evaluation.py<br/>span precision, recall, F1"]:::obs
+        Metrics["ServiceMetrics<br/>Prometheus text"]:::obs
+        Response["JSON tags and entities"]:::obs
+    end
+
+    User -->|arguments| CLI
+    Client -->|JSON request| Router
+    Router -->|POST /tag| Validate
+    CLI -->|train before use| Trainer
+    Dataset -->|train split| Features
+    Features -->|feature lists| Trainer
+    Config -.-> Trainer
+    FB -->|expected counts| Trainer
+    Trainer -->|fit| Weights
+    Weights -.-> FB
     Validate -->|tokens| Viterbi
+    Features -->|emission features| Viterbi
+    CLI -->|tokens| Viterbi
     Weights -.-> Viterbi
-    Viterbi -->|labels| Result
-    Result --> Router -->|JSON response| Client
+    Viterbi -->|labels| Spans
+    Spans -->|entities| Response
+    Dataset -.->|test split| Eval
+    Spans -->|predicted spans| Eval
+    Router -.->|route latency and errors| Metrics
