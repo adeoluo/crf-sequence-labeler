@@ -16,7 +16,7 @@
 | Unbounded computation | Very long token list | Resource use | Token count bounded to 200 |
 | Malformed input | Non-string tokens | Crash | Type validation with a 400 |
 | Irreproducible training | Unseeded gradient ascent | Flaky weights | Deterministic, seeded training |
-| Supply-chain compromise | Malicious dependency | Code execution | No third-party runtime packages; Dependabot and CodeQL in continuous integration |
+| Supply-chain compromise | Malicious dependency | Code execution | No third-party runtime packages; development tools pinned in `uv.lock`; CodeQL in continuous integration |
 
 ## Residual risk
 
