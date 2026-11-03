@@ -1,0 +1,36 @@
+# CRF Sequence Labeler
+
+> A linear-chain conditional random field for sequence labeling, built from scratch: forward-backward training with log-likelihood gradients, Viterbi decoding, and span-level evaluation.
+
+Languages: Python. License: MIT. Source: https://github.com/adeoluo/crf-sequence-labeler
+
+## Docs
+
+- [README](https://github.com/adeoluo/crf-sequence-labeler/blob/main/README.md): motivation, architecture, results, quickstart, usage, design decisions, testing, responsible ai, limitations, roadmap
+- [AGENTS.md](https://github.com/adeoluo/crf-sequence-labeler/blob/main/AGENTS.md): layout, commands and conventions for changing the code
+- [Architecture diagram](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/architecture/architecture.mmd): Mermaid source of the component diagram
+- [End-to-End Case Study - Tagging Entities a Model Never Saw](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/CASE_STUDY.md)
+- [Data Card - CRF Sequence Labeler](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/DATA_CARD.md)
+- [Definition of Done](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/DEFINITION_OF_DONE.md)
+- [Evaluation Report - CRF Sequence Labeler](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/EVALUATION_REPORT.md)
+- [System Card - CRF Sequence Labeler](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/MODEL_CARD.md)
+- [Operations Guide - CRF Sequence Labeler](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/OPERATIONS.md)
+- [Scaling and Design Tradeoffs - CRF Sequence Labeler](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/SCALING.md)
+- [Threat Model - CRF Sequence Labeler](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/THREAT_MODEL.md)
+- [ADR-0001: Record architecture decisions](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/adr/0001-record-architecture-decisions.md)
+- [ADR-0002: A conditional random field over independent classifiers](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/adr/0002-conditional-random-field.md)
+- [ADR-0003: Forward-backward log-likelihood gradients, no autodiff](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/adr/0003-forward-backward-gradient.md)
+- [ADR-NNNN: <short title>](https://github.com/adeoluo/crf-sequence-labeler/blob/main/docs/adr/template.md)
+- [Changelog](https://github.com/adeoluo/crf-sequence-labeler/blob/main/CHANGELOG.md): release history
+
+## Source
+
+- [src/crf_sequence_labeler/__init__.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/__init__.py): CRF Sequence Labeler - a linear-chain conditional random field from scratch.
+- [src/crf_sequence_labeler/cli.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/cli.py): Command line interface for the CRF sequence labeler.
+- [src/crf_sequence_labeler/crf.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/crf.py): A linear-chain conditional random field, trained from scratch.
+- [src/crf_sequence_labeler/data.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/data.py): A bundled named-entity dataset with BIO tags for demonstration and evaluation.
+- [src/crf_sequence_labeler/evaluation.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/evaluation.py): Span-level evaluation for sequence labeling.
+- [src/crf_sequence_labeler/features.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/features.py): Observation feature extraction for the linear-chain CRF.
+- [src/crf_sequence_labeler/observability.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/observability.py): In-process request metrics for the HTTP service (Prometheus text exposition).
+- [src/crf_sequence_labeler/service.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/service.py): A standard-library HTTP service exposing the trained CRF tagger.
+- [src/crf_sequence_labeler/training.py](https://github.com/adeoluo/crf-sequence-labeler/blob/main/src/crf_sequence_labeler/training.py): Train the CRF by stochastic gradient ascent on the log-likelihood.
